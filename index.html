@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idea to Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: #0e0e12;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .heart {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .headline {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0b0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-box {
+            background-color: #1a1a1f;
+            border: 1px solid #333339;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            padding: 1rem 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .animation-container {
+            width: 100%;
+            max-width: 700px;
+            height: 350px;
+            position: relative;
+            margin-bottom: 2rem;
+            background-color: #1a1a1f;
+            border-radius: 12px;
+            overflow: hidden;
+            perspective: 800px;
+        }
+        
+        .output-label {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: #a0a0b0;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+        
+        .design-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .canvas-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(45, 45, 60, 0.3) 0%, rgba(30, 30, 40, 0) 70%);
+            opacity: 0.5;
+        }
+        
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,119,0,0.8) 0%, rgba(255,119,0,0) 70%);
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .input-area {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .input-area::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 24px;
+            background-color: #ff7700;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .typed-text {
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+        
+        .search-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #333339;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .design-element {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .left-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #a0a0b0;
+            background: transparent;
+            border: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        
+        .right-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .public-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        
+        .example-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 700px;
+        }
+        
+        .example-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 0.7rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        
+        .arrow-up {
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="heartGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                    <stop offset="0%" style="stop-color:#ff9900;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff5500;stop-opacity:1" />
+                </radialGradient>
+            </defs>
+            <path d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 Z" fill="url(#heartGradient)" />
+        </svg>
+    </div>
+    
+    <h1 class="headline">Idea to design in seconds.</h1>
+    <p class="subtitle">DesignAI is your superhuman design assistant.</p>
+    
+    <div class="search-box">
+        <div class="input-area">
+            <span class="typed-text">Ask DesignAI to create a design that...</span>
+        </div>
+    </div>
+    
+    <div class="animation-container">
+        <div class="canvas-bg"></div>
+        <div class="design-canvas" id="design-canvas"></div>
+    </div>
+    
+    <div class="example-row">
+        <button class="example-btn">
+            Logo design
+            <span class="arrow-up">↑</span>
+        </button>
+        <button class="example-btn">
+            Website mockup
+            <span class="arrow-up">↑</span>
+        </button>
+        <button class="example-btn">
+            App interface
+            <span class="arrow-up">↑</span>
+        </button>
+        <button class="example-btn">
+            Brand identity
+            <span class="arrow-up">↑</span>
+        </button>
+    </div>
+    
+    <script src="lib/anime.min.js"></script>
+    <script>
+        // Animation for the heart logo
+        anime({
+          targets: '.heart',
+          translateY: [10, 0],
+          opacity: [0, 1],
+          easing: 'easeOutExpo',
+          duration: 1200
+        });
+        
+        // Animation for the headline and subtitle
+        anime({
+          targets: ['.headline', '.subtitle'],
+          translateY: [20, 0],
+          opacity: [0, 1],
+          easing: 'easeOutExpo',
+          duration: 1200,
+          delay: anime.stagger(100, {start: 300})
+        });
+        
+        // Animation for the search box
+        anime({
+          targets: '.search-box',
+          translateY: [20, 0],
+          opacity: [0, 1],
+          easing: 'easeOutExpo',
+          duration: 1200,
+          delay: 500
+        });
+        
+        // Animation for the example buttons
+        anime({
+          targets: '.example-btn',
+          translateY: [20, 0],
+          opacity: [0, 1],
+          easing: 'easeOutExpo',
+          duration: 1200,
+          delay: anime.stagger(100, {start: 700})
+        });
+
+        // Typing animation
+        const sentences = [
+            "Create a logo for a cafe...",
+            "Design a mobile app UI...",
+            "Create a website for a fashion brand...",
+            "Design a modern business card...",
+            "Create a social media banner...",
+            "Design a product packaging...",
+            "Create icons for my app...",
+            "Design a landing page..."
+        ];
+        
+        const typedTextElement = document.querySelector('.typed-text');
+        const designCanvas = document.getElementById('design-canvas');
+        
+        let currentSentenceIndex = 0;
+        let currentCharIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 80;
+        
+        // Create design elements based on the current text
+        function createDesignElements(text) {
+            // Clear previous elements
+            while (designCanvas.firstChild) {
+                designCanvas.removeChild(designCanvas.firstChild);
+            }
+            
+            if (text.includes("logo for a cafe")) {
+                createCafeLogoElements();
+            } else if (text.includes("mobile app UI")) {
+                createMobileAppElements();
+            } else if (text.includes("website for a fashion")) {
+                createFashionElements();
+            } else if (text.includes("business card")) {
+                createBusinessCardElements();
+            } else if (text.includes("social media banner")) {
+                createSocialMediaBannerElements();
+            } else if (text.includes("product packaging")) {
+                createProductPackagingElements();
+            } else if (text.includes("icons for my app")) {
+                createIconsElements();
+            } else if (text.includes("landing page")) {
+                createLandingPageElements();
+            }
+        }
+        
+        function createParticle(x, y, size) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            return particle;
+        }
+        
+        function createShape(type, x, y, size, color) {
+            const shape = document.createElement('div');
+            shape.classList.add('shape');
+            shape.style.width = size + 'px';
+            shape.style.height = size + 'px';
+            shape.style.left = x + 'px';
+            shape.style.top = y + 'px';
+            shape.style.backgroundColor = color;
+            
+            if (type === 'circle') {
+                shape.style.borderRadius = '50%';
+            } else if (type === 'square') {
+                shape.style.borderRadius = '3px';
+            }
+            
+            return shape;
+        }
+        
+        function createCafeLogoElements() {
+            // Create coffee cup shape
+            const cup = document.createElement('div');
+            cup.classList.add('shape');
+            cup.style.width = '80px';
+            cup.style.height = '100px';
+            cup.style.borderRadius = '0 0 40px 40px';
+            cup.style.border = '3px solid #ff7700';
+            cup.style.borderTop = 'none';
+            cup.style.position = 'absolute';
+            cup.style.left = '50%';
+            cup.style.top = '50%';
+            cup.style.transform = 'translate(-50%, -50%)';
+            cup.style.opacity = '0';
+            cup.style.boxShadow = '0 0 20px rgba(255, 119, 0, 0.3)';
+            
+            // Add handle to cup
+            const handle = document.createElement('div');
+            handle.classList.add('shape');
+            handle.style.width = '20px';
+            handle.style.height = '40px';
+            handle.style.borderRadius = '0 20px 20px 0';
+            handle.style.border = '3px solid #ff7700';
+            handle.style.borderLeft = 'none';
+            handle.style.position = 'absolute';
+            handle.style.right = '-20px';
+            handle.style.top = '30px';
+            handle.style.opacity = '0';
+            
+            cup.appendChild(handle);
+            
+            const steam1 = createParticle(-10, -30, 25);
+            const steam2 = createParticle(10, -40, 20);
+            const steam3 = createParticle(30, -35, 22);
+            
+            // Create coffee brand text
+            const brand = document.createElement('div');
+            brand.classList.add('shape');
+            brand.style.width = '150px';
+            brand.style.textAlign = 'center';
+            brand.style.color = '#ff7700';
+            brand.style.fontWeight = 'bold';
+            brand.style.fontSize = '24px';
+            brand.style.position = 'absolute';
+            brand.style.left = '50%';
+            brand.style.bottom = '30%';
+            brand.style.transform = 'translateX(-50%)';
+            brand.style.opacity = '0';
+            brand.textContent = "CAFÉ AROMA";
+            
+            const tagline = document.createElement('div');
+            tagline.classList.add('shape');
+            tagline.style.width = '150px';
+            tagline.style.textAlign = 'center';
+            tagline.style.color = '#ff7700';
+            tagline.style.fontStyle = 'italic';
+            tagline.style.fontSize = '12px';
+            tagline.style.position = 'absolute';
+            tagline.style.left = '50%';
+            tagline.style.bottom = '25%';
+            tagline.style.transform = 'translateX(-50%)';
+            tagline.style.opacity = '0';
+            tagline.textContent = "EST. 2025";
+            
+            designCanvas.appendChild(cup);
+            designCanvas.appendChild(steam1);
+            designCanvas.appendChild(steam2);
+            designCanvas.appendChild(steam3);
+            designCanvas.appendChild(brand);
+            designCanvas.appendChild(tagline);
+            
+            // Animate the coffee cup
+            anime({
+                targets: cup,
+                opacity: [0, 1],
+                scale: [0.7, 1],
+                easing: 'easeOutExpo',
+                duration: 1000
+            });
+            
+            // Animate handle
+            anime({
+                targets: handle,
+                opacity: [0, 1],
+                duration: 800,
+                delay: 300
+            });
+            
+            // Animate the steam
+            anime({
+                targets: [steam1, steam2, steam3],
+                opacity: [0, 0.7, 0],
+                translateY: -30,
+                delay: anime.stagger(200),
+                duration: 1500,
+                loop: true,
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate text
+            anime({
+                targets: [brand, tagline],
+                opacity: [0, 1],
+                translateY: [10, 0],
+                delay: anime.stagger(200, {start: 500}),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+        }
+        
+        function createMobileAppElements() {
+            // Create a phone frame
+            const phone = document.createElement('div');
+            phone.classList.add('shape');
+            phone.style.width = '220px';
+            phone.style.height = '400px';
+            phone.style.borderRadius = '20px';
+            phone.style.border = '3px solid #ff7700';
+            phone.style.position = 'absolute';
+            phone.style.left = '50%';
+            phone.style.top = '50%';
+            phone.style.transform = 'translate(-50%, -50%)';
+            phone.style.opacity = '0';
+            phone.style.overflow = 'hidden';
+            phone.style.backgroundColor = '#1e1c1a';
+            phone.style.boxShadow = '0 0 20px rgba(255, 119, 0, 0.3)';
+            
+            // Create app elements
+            const header = document.createElement('div');
+            header.classList.add('shape');
+            header.style.position = 'absolute';
+            header.style.left = '0';
+            header.style.top = '0';
+            header.style.width = '100%';
+            header.style.height = '60px';
+            header.style.backgroundColor = '#4a2e15';
+            header.style.opacity = '1';
+            
+            // App title
+            const title = document.createElement('div');
+            title.classList.add('shape');
+            title.style.position = 'absolute';
+            title.style.left = '50%';
+            title.style.top = '18px';
+            title.style.transform = 'translateX(-50%)';
+            title.style.color = 'white';
+            title.style.fontSize = '18px';
+            title.style.fontWeight = 'bold';
+            title.style.opacity = '0';
+            title.textContent = "FITNESS TRACKER";
+            
+            // Menu icon
+            const menu = document.createElement('div');
+            menu.classList.add('shape');
+            menu.style.position = 'absolute';
+            menu.style.left = '15px';
+            menu.style.top = '20px';
+            menu.style.width = '20px';
+            menu.style.height = '14px';
+            menu.style.opacity = '0';
+            
+            // Create 3 lines for menu icon
+            for (let i = 0; i < 3; i++) {
+                const line = document.createElement('div');
+                line.style.width = '100%';
+                line.style.height = '2px';
+                line.style.backgroundColor = 'white';
+                line.style.position = 'absolute';
+                line.style.left = '0';
+                line.style.top = (i * 6) + 'px';
+                menu.appendChild(line);
+            }
+            
+            // Create content cards
+            const cards = [];
+            const cardColors = ['rgba(255, 119, 0, 0.9)', 'rgba(255, 119, 0, 0.7)', 'rgba(255, 119, 0, 0.5)'];
+            const cardTitles = ['Daily Steps', 'Heart Rate', 'Calories'];
+            const cardData = ['12,546', '72 BPM', '1,845 kcal'];
+            
+            for (let i = 0; i < 3; i++) {
+                const card = document.createElement('div');
+                card.classList.add('shape');
+                card.style.width = '180px';
+                card.style.height = '80px';
+                card.style.backgroundColor = cardColors[i];
+                card.style.borderRadius = '10px';
+                card.style.position = 'absolute';
+                card.style.left = '50%';
+                card.style.top = (90 + i * 100) + 'px';
+                card.style.transform = 'translateX(-50%)';
+                card.style.opacity = '0';
+                card.style.padding = '15px';
+                card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                
+                // Card title
+                const cardTitle = document.createElement('div');
+                cardTitle.style.color = 'white';
+                cardTitle.style.fontSize = '14px';
+                cardTitle.style.marginBottom = '10px';
+                cardTitle.textContent = cardTitles[i];
+                
+                // Card data
+                const cardValue = document.createElement('div');
+                cardValue.style.color = 'white';
+                cardValue.style.fontSize = '28px';
+                cardValue.style.fontWeight = 'bold';
+                cardValue.textContent = cardData[i];
+                
+                card.appendChild(cardTitle);
+                card.appendChild(cardValue);
+                cards.push(card);
+            }
+            
+            // Add phone status indicators
+            const statusBar = document.createElement('div');
+            statusBar.classList.add('shape');
+            statusBar.style.position = 'absolute';
+            statusBar.style.top = '5px'; 
+            statusBar.style.right = '10px';
+            statusBar.style.color = 'white';
+            statusBar.style.fontSize = '12px';
+            statusBar.style.opacity = '0';
+            statusBar.textContent = "4:20 PM";
+            
+            const batteryIcon = document.createElement('div');
+            batteryIcon.classList.add('shape');
+            batteryIcon.style.position = 'absolute';
+            batteryIcon.style.right = '40px';
+            batteryIcon.style.top = '7px';
+            batteryIcon.style.width = '15px';
+            batteryIcon.style.height = '7px';
+            batteryIcon.style.border = '1px solid #fff';
+            batteryIcon.style.borderRadius = '1px';
+            batteryIcon.style.opacity = '0';
+            
+            const batteryLevel = document.createElement('div');
+            batteryLevel.style.position = 'absolute';
+            batteryLevel.style.left = '2px';
+            batteryLevel.style.top = '2px';
+            batteryLevel.style.width = '9px';
+            batteryLevel.style.height = '3px';
+            batteryLevel.style.backgroundColor = '#fff';
+            batteryIcon.appendChild(batteryLevel);
+            
+            // Add bottom nav bar
+            const navBar = document.createElement('div');
+            navBar.classList.add('shape');
+            navBar.style.position = 'absolute';
+            navBar.style.bottom = '0';
+            navBar.style.left = '0';
+            navBar.style.width = '100%';
+            navBar.style.height = '50px';
+            navBar.style.backgroundColor = '#4a2e15';
+            navBar.style.opacity = '0';
+            
+            // Create nav icons
+            for (let i = 0; i < 4; i++) {
+                const navIcon = document.createElement('div');
+                navIcon.classList.add('shape');
+                navIcon.style.position = 'absolute';
+                navIcon.style.width = '6px';
+                navIcon.style.height = '6px';
+                navIcon.style.backgroundColor = 'white';
+                navIcon.style.borderRadius = '50%';
+                navIcon.style.left = (30 + i * 55) + 'px';
+                navIcon.style.top = '22px';
+                navIcon.style.opacity = '0';
+                
+                navBar.appendChild(navIcon);
+            }
+            
+            phone.appendChild(header);
+            phone.appendChild(title);
+            phone.appendChild(menu);
+            phone.appendChild(statusBar);
+            phone.appendChild(batteryIcon);
+            phone.appendChild(navBar);
+            cards.forEach(card => phone.appendChild(card));
+            
+            designCanvas.appendChild(phone);
+            
+            // Animate the phone frame
+            anime({
+                targets: phone,
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                rotateY: [-10, 0],
+                easing: 'easeOutExpo',
+                duration: 1000
+            });
+            
+            // Animate the app elements
+            anime({
+                targets: [title, menu, statusBar, batteryIcon],
+                opacity: [0, 1],
+                delay: anime.stagger(150, {start: 500}),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate cards
+            anime({
+                targets: cards,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                scale: [0.9, 1],
+                delay: anime.stagger(150, {start: 800}),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate navbar and icons
+            anime({
+                targets: navBar,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800,
+                delay: 1200,
+                easing: 'easeOutQuad'
+            });
+            
+            anime({
+                targets: navBar.children,
+                opacity: [0, 1],
+                scale: [0, 1],
+                delay: anime.stagger(100, {start: 1400}),
+                duration: 600,
+                easing: 'easeOutExpo'
+            });
+        }
+        
+        function createFashionElements() {
+            // Create a main container
+            const container = document.createElement('div');
+            container.classList.add('shape');
+            container.style.width = '400px';
+            container.style.height = '300px';
+            container.style.position = 'absolute';
+            container.style.left = '50%';
+            container.style.top = '50%';
+            container.style.transform = 'translate(-50%, -50%)';
+            container.style.opacity = '1';
+            
+            // Create fashion brand elements
+            const brandName = document.createElement('div');
+            brandName.classList.add('shape');
+            brandName.style.position = 'absolute';
+            brandName.style.left = '50%';
+            brandName.style.top = '50%';
+            brandName.style.transform = 'translate(-50%, -50%)';
+            brandName.style.color = '#ff7700';
+            brandName.style.fontWeight = 'bold';
+            brandName.style.fontSize = '40px';
+            brandName.style.letterSpacing = '8px';
+            brandName.style.opacity = '0';
+            brandName.textContent = "LUXE";
+            
+            // Create geometric elements for style
+            const circle1 = createShape('circle', 100, 50, 120, 'rgba(255, 119, 0, 0.05)');
+            const circle2 = createShape('circle', 250, 200, 80, 'rgba(255, 119, 0, 0.08)');
+            const rectangle = createShape('square', 150, 100, 200, 'rgba(255, 119, 0, 0.03)');
+            rectangle.style.height = '1px';
+            
+            // Create accent lines
+            const line1 = document.createElement('div');
+            line1.classList.add('shape');
+            line1.style.width = '60px';
+            line1.style.height = '2px';
+            line1.style.backgroundColor = '#ff7700';
+            line1.style.position = 'absolute';
+            line1.style.left = '50%';
+            line1.style.top = '40%';
+            line1.style.transform = 'translateX(-50%)';
+            line1.style.opacity = '0';
+            
+            const line2 = document.createElement('div');
+            line2.classList.add('shape');
+            line2.style.width = '60px';
+            line2.style.height = '2px';
+            line2.style.backgroundColor = '#ff7700';
+            line2.style.position = 'absolute';
+            line2.style.left = '50%';
+            line2.style.top = '60%';
+            line2.style.transform = 'translateX(-50%)';
+            line2.style.opacity = '0';
+            
+            // Tagline
+            const tagline = document.createElement('div');
+            tagline.classList.add('shape');
+            tagline.style.position = 'absolute';
+            tagline.style.width = '100%';
+            tagline.style.textAlign = 'center';
+            tagline.style.left = '50%';
+            tagline.style.top = '65%';
+            tagline.style.transform = 'translateX(-50%)';
+            tagline.style.color = '#a0a0b0';
+            tagline.style.fontSize = '14px';
+            tagline.style.letterSpacing = '3px';
+            tagline.style.opacity = '0';
+            tagline.textContent = "FASHION FORWARD";
+            
+            container.appendChild(circle1);
+            container.appendChild(circle2);
+            container.appendChild(rectangle);
+            container.appendChild(line1);
+            container.appendChild(line2);
+            container.appendChild(brandName);
+            container.appendChild(tagline);
+            
+            designCanvas.appendChild(container);
+            
+            // Animate geometric shapes
+            anime({
+                targets: [circle1, circle2, rectangle],
+                opacity: [0, 1],
+                scale: [0.5, 1],
+                duration: 1500,
+                delay: anime.stagger(200),
+                easing: 'easeOutSine'
+            });
+            
+            // Animate brand name
+            anime({
+                targets: brandName,
+                opacity: [0, 1],
+                letterSpacing: ['0px', '8px'],
+                duration: 1200,
+                delay: 400,
+                easing: 'easeOutExpo'
+            });
+            
+            // Animate lines
+            anime({
+                targets: [line1, line2],
+                opacity: [0, 1],
+                width: [0, '60px'],
+                duration: 800,
+                delay: anime.stagger(300, {start: 800}),
+                easing: 'easeOutExpo'
+            });
+            
+            // Animate tagline
+            anime({
+                targets: tagline,
+                opacity: [0, 1],
+                letterSpacing: ['0px', '3px'],
+                duration: 1000,
+                delay: 1200,
+                easing: 'easeOutExpo'
+            });
+        }
+        
+        function createBusinessCardElements() {
+            // Create card shape
+            const card = document.createElement('div');
+            card.classList.add('shape');
+            card.style.width = '300px';
+            card.style.height = '180px';
+            card.style.borderRadius = '5px';
+            card.style.backgroundColor = '#1a1a1f';
+            card.style.border = '1px solid #ff7700';
+            card.style.position = 'absolute';
+            card.style.left = '50%';
+            card.style.top = '50%';
+            card.style.transform = 'translate(-50%, -50%) rotateY(0deg)';
+            card.style.opacity = '0';
+            card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            card.style.overflow = 'hidden';
+            
+            // Create diagonal accent
+            const accent = document.createElement('div');
+            accent.classList.add('shape');
+            accent.style.position = 'absolute';
+            accent.style.width = '150px';
+            accent.style.height = '300px';
+            accent.style.backgroundColor = 'rgba(255, 119, 0, 0.1)';
+            accent.style.transform = 'rotate(45deg)';
+            accent.style.right = '-100px';
+            accent.style.top = '-100px';
+            accent.style.opacity = '0';
+            
+            // Create card elements
+            const logo = createShape('circle', 30, 30, 40, 'rgba(255, 119, 0, 0.9)');
+            
+            // Name
+            const name = document.createElement('div');
+            name.classList.add('shape');
+            name.style.position = 'absolute';
+            name.style.left = '80px';
+            name.style.top = '30px';
+            name.style.color = '#ff7700';
+            name.style.fontSize = '22px';
+            name.style.fontWeight = 'bold';
+            name.style.opacity = '0';
+            name.textContent = "JANE SMITH";
+            
+            // Title
+            const title = document.createElement('div');
+            title.classList.add('shape');
+            title.style.position = 'absolute';
+            title.style.left = '80px';
+            title.style.top = '58px';
+            title.style.color = '#a0a0b0';
+            title.style.fontSize = '14px';
+            title.style.opacity = '0';
+            title.textContent = "CREATIVE DIRECTOR";
+            
+            // Contact info
+            const contactItems = [
+                {icon: "📱", text: "+1 (555) 123-4567"},
+                {icon: "✉️", text: "jane@designcompany.com"},
+                {icon: "🌐", text: "www.designcompany.com"}
+            ];
+            
+            const contactElements = [];
+            
+            contactItems.forEach((item, index) => {
+                const contact = document.createElement('div');
+                contact.classList.add('shape');
+                contact.style.position = 'absolute';
+                contact.style.left = '30px';
+                contact.style.top = (100 + index * 25) + 'px';
+                contact.style.color = 'white';
+                contact.style.fontSize = '14px';
+                contact.style.opacity = '0';
+                contact.innerHTML = `<span style="margin-right: 10px">${item.icon}</span>${item.text}`;
+                contactElements.push(contact);
+            });
+            
+            card.appendChild(accent);
+            card.appendChild(logo);
+            card.appendChild(name);
+            card.appendChild(title);
+            contactElements.forEach(el => card.appendChild(el));
+            
+            designCanvas.appendChild(card);
+            
+            // Animate card
+            anime({
+                targets: card,
+                opacity: [0, 1],
+                scale: [0.9, 1],
+                rotateY: [40, 0],
+                duration: 1200,
+                easing: 'easeOutExpo'
+            });
+            
+            // Animate accent
+            anime({
+                targets: accent,
+                opacity: [0, 1],
+                duration: 1000,
+                delay: 300,
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate logo
+            anime({
+                targets: logo,
+                opacity: [0, 1],
+                scale: [0.5, 1],
+                duration: 800,
+                delay: 500,
+                easing: 'easeOutElastic(1, .5)'
+            });
+            
+            // Animate name and title
+            anime({
+                targets: [name, title],
+                opacity: [0, 1],
+                translateX: [20, 0],
+                duration: 800,
+                delay: anime.stagger(200, {start: 700}),
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate contact info
+            anime({
+                targets: contactElements,
+                opacity: [0, 1],
+                translateY: [10, 0],
+                duration: 600,
+                delay: anime.stagger(150, {start: 1000}),
+                easing: 'easeOutQuad'
+            });
+        }
+        
+        function createSocialMediaBannerElements() {
+            // Create banner container
+            const banner = document.createElement('div');
+            banner.classList.add('shape');
+            banner.style.width = '500px';
+            banner.style.height = '250px';
+            banner.style.borderRadius = '8px';
+            banner.style.backgroundColor = '#1a1a1f';
+            banner.style.position = 'absolute';
+            banner.style.left = '50%';
+            banner.style.top = '50%';
+            banner.style.transform = 'translate(-50%, -50%)';
+            banner.style.opacity = '0';
+            banner.style.overflow = 'hidden';
+            banner.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            
+            // Create background gradient
+            const gradient = document.createElement('div');
+            gradient.classList.add('shape');
+            gradient.style.position = 'absolute';
+            gradient.style.width = '100%';
+            gradient.style.height = '100%';
+            gradient.style.background = 'linear-gradient(45deg, rgba(255,119,0,0.3) 0%, rgba(255,119,0,0) 70%)';
+            gradient.style.opacity = '0';
+            
+            // Create design elements
+            const circle1 = createShape('circle', 400, 50, 150, 'rgba(255, 119, 0, 0.1)');
+            const circle2 = createShape('circle', 80, 180, 100, 'rgba(255, 119, 0, 0.08)');
+            
+            // Create banner text
+            const title = document.createElement('div');
+            title.classList.add('shape');
+            title.style.position = 'absolute';
+            title.style.left = '40px';
+            title.style.top = '60px';
+            title.style.color = 'white';
+            title.style.fontSize = '36px';
+            title.style.fontWeight = 'bold';
+            title.style.opacity = '0';
+            title.textContent = "SUMMER SALE";
+            
+            // Subtitle
+            const subtitle = document.createElement('div');
+            subtitle.classList.add('shape');
+            subtitle.style.position = 'absolute';
+            subtitle.style.left = '40px';
+            subtitle.style.top = '110px';
+            subtitle.style.color = '#ff7700';
+            subtitle.style.fontSize = '60px';
+            subtitle.style.fontWeight = 'bold';
+            subtitle.style.opacity = '0';
+            subtitle.textContent = "50% OFF";
+            
+            // CTA
+            const cta = document.createElement('div');
+            cta.classList.add('shape');
+            cta.style.position = 'absolute';
+            cta.style.left = '40px';
+            cta.style.top = '180px';
+            cta.style.backgroundColor = '#ff7700';
+            cta.style.color = 'white';
+            cta.style.padding = '8px 20px';
+            cta.style.borderRadius = '30px';
+            cta.style.fontSize = '16px';
+            cta.style.fontWeight = 'bold';
+            cta.style.opacity = '0';
+            cta.textContent = "SHOP NOW";
+            
+            banner.appendChild(gradient);
+            banner.appendChild(circle1);
+            banner.appendChild(circle2);
+            banner.appendChild(title);
+            banner.appendChild(subtitle);
+            banner.appendChild(cta);
+            
+            designCanvas.appendChild(banner);
+            
+            // Animate banner
+            anime({
+                targets: banner,
+                opacity: [0, 1],
+                scale: [0.9, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+            
+            // Animate gradient and circles
+            anime({
+                targets: [gradient, circle1, circle2],
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                duration: 1200,
+                delay: anime.stagger(200, {start: 300}),
+                easing: 'easeOutSine'
+            });
+            
+            // Animate text elements
+            anime({
+                targets: [title, subtitle],
+                opacity: [0, 1],
+                translateX: [-30, 0],
+                duration: 1000,
+                delay: anime.stagger(200, {start: 500}),
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate CTA
+            anime({
+                targets: cta,
+                opacity: [0, 1],
+                translateY: [10, 0],
+                scale: [0.9, 1],
+                duration: 800,
+                delay: 900,
+                easing: 'easeOutElastic(1, .5)'
+            });
+        }
+        
+        function createProductPackagingElements() {
+            // Create product box container
+            const container = document.createElement('div');
+            container.classList.add('shape');
+            container.style.width = '350px';
+            container.style.height = '350px';
+            container.style.position = 'absolute';
+            container.style.left = '50%';
+            container.style.top = '50%';
+            container.style.transform = 'translate(-50%, -50%)';
+            container.style.opacity = '1';
+            container.style.perspective = '1000px';
+            
+            // Create 3D box
+            const box = document.createElement('div');
+            box.classList.add('shape');
+            box.style.width = '200px';
+            box.style.height = '240px';
+            box.style.position = 'absolute';
+            box.style.left = '50%';
+            box.style.top = '50%';
+            box.style.transform = 'translate(-50%, -50%) rotateY(25deg) rotateX(5deg)';
+            box.style.transformStyle = 'preserve-3d';
+            box.style.backgroundColor = '#ff7700';
+            box.style.borderRadius = '4px';
+            box.style.boxShadow = '10px 10px 30px rgba(0, 0, 0, 0.3)';
+            box.style.opacity = '0';
+            
+            // Create front face label
+            const label = document.createElement('div');
+            label.classList.add('shape');
+            label.style.position = 'absolute';
+            label.style.width = '180px';
+            label.style.height = '220px';
+            label.style.top = '10px';
+            label.style.left = '10px';
+            label.style.backgroundColor = 'white';
+            label.style.borderRadius = '2px';
+            label.style.opacity = '0';
+            
+            // Create product brand
+            const brand = document.createElement('div');
+            brand.classList.add('shape');
+            brand.style.position = 'absolute';
+            brand.style.top = '30px';
+            brand.style.width = '100%';
+            brand.style.textAlign = 'center';
+            brand.style.color = '#ff7700';
+            brand.style.fontSize = '28px';
+            brand.style.fontWeight = 'bold';
+            brand.style.opacity = '0';
+            brand.textContent = "VITABOOST";
+            
+            // Product logo
+            const logo = createShape('circle', 90, 80, 60, 'rgba(255, 119, 0, 0.1)');
+            const logoInner = createShape('circle', 90, 80, 40, 'rgba(255, 119, 0, 0.3)');
+            const logoCore = createShape('circle', 90, 80, 20, 'rgba(255, 119, 0, 0.9)');
+            
+            // Product description
+            const desc1 = document.createElement('div');
+            desc1.classList.add('shape');
+            desc1.style.position = 'absolute';
+            desc1.style.top = '140px';
+            desc1.style.width = '100%';
+            desc1.style.textAlign = 'center';
+            desc1.style.color = '#333';
+            desc1.style.fontSize = '16px';
+            desc1.style.fontWeight = 'bold';
+            desc1.style.opacity = '0';
+            desc1.textContent = "PREMIUM QUALITY";
+            
+            const desc2 = document.createElement('div');
+            desc2.classList.add('shape');
+            desc2.style.position = 'absolute';
+            desc2.style.top = '165px';
+            desc2.style.width = '100%';
+            desc2.style.textAlign = 'center';
+            desc2.style.color = '#333';
+            desc2.style.fontSize = '14px';
+            desc2.style.opacity = '0';
+            desc2.textContent = "NATURAL INGREDIENTS";
+            
+            // Weight label
+            const weight = document.createElement('div');
+            weight.classList.add('shape');
+            weight.style.position = 'absolute';
+            weight.style.bottom = '20px';
+            weight.style.width = '100%';
+            weight.style.textAlign = 'center';
+            weight.style.color = '#ff7700';
+            weight.style.fontSize = '14px';
+            weight.style.opacity = '0';
+            weight.textContent = "NET WT 8.5 OZ (240g)";
+            
+            label.appendChild(brand);
+            label.appendChild(logo);
+            label.appendChild(logoInner);
+            label.appendChild(logoCore);
+            label.appendChild(desc1);
+            label.appendChild(desc2);
+            label.appendChild(weight);
+            box.appendChild(label);
+            container.appendChild(box);
+            
+            designCanvas.appendChild(container);
+            
+            // Animate box
+            anime({
+                targets: box,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                rotateY: [40, 25],
+                duration: 1200,
+                easing: 'easeOutExpo'
+            });
+            
+            // Animate label
+            anime({
+                targets: label,
+                opacity: [0, 1],
+                scale: [0.9, 1],
+                delay: 300,
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate brand
+            anime({
+                targets: brand,
+                opacity: [0, 1],
+                translateY: [-10, 0],
+                duration: 800,
+                delay: 600,
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate logo
+            anime({
+                targets: [logo, logoInner, logoCore],
+                opacity: [0, 1],
+                scale: [0, 1],
+                duration: 1000,
+                delay: anime.stagger(150, {start: 800}),
+                easing: 'easeOutElastic(1, .5)'
+            });
+            
+            // Animate description
+            anime({
+                targets: [desc1, desc2, weight],
+                opacity: [0, 1],
+                translateY: [10, 0],
+                duration: 800,
+                delay: anime.stagger(150, {start: 1200}),
+                easing: 'easeOutQuad'
+            });
+            
+            // Add continuous rotation
+            anime({
+                targets: box,
+                rotateY: [25, 35],
+                duration: 3000,
+                direction: 'alternate',
+                loop: true,
+                easing: 'easeInOutQuad'
+            });
+        }
+        
+        function createIconsElements() {
+            // Create icons grid container
+            const container = document.createElement('div');
+            container.classList.add('shape');
+            container.style.width = '350px';
+            container.style.height = '350px';
+            container.style.position = 'absolute';
+            container.style.left = '50%';
+            container.style.top = '50%';
+            container.style.transform = 'translate(-50%, -50%)';
+            container.style.opacity = '1';
+            container.style.display = 'grid';
+            container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            container.style.gridTemplateRows = 'repeat(3, 1fr)';
+            container.style.gap = '30px';
+            
+            // Icon styles and types
+            const iconStyles = [
+                { shape: 'circle', bgColor: 'rgba(255, 119, 0, 0.2)', iconColor: '#ff7700' },
+                { shape: 'square', bgColor: 'rgba(255, 119, 0, 0.2)', iconColor: '#ff7700' }
+            ];
+            
+            // Create 9 icons
+            const icons = [];
+            for (let i = 0; i < 9; i++) {
+                const style = iconStyles[i % 2];
+                
+                // Create icon background
+                const iconBg = document.createElement('div');
+                iconBg.classList.add('shape');
+                iconBg.style.width = '80px';
+                iconBg.style.height = '80px';
+                iconBg.style.backgroundColor = style.bgColor;
+                iconBg.style.borderRadius = style.shape === 'circle' ? '50%' : '15px';
+                iconBg.style.position = 'relative';
+                iconBg.style.display = 'flex';
+                iconBg.style.alignItems = 'center';
+                iconBg.style.justifyContent = 'center';
+                iconBg.style.opacity = '0';
+                
+                // Create icon symbol (simple shapes for demo)
+                let iconSymbol;
+                
+                // Different icon for each position
+                switch(i) {
+                    case 0: // Home icon
+                        iconSymbol = document.createElement('div');
+                        iconSymbol.style.width = '30px';
+                        iconSymbol.style.height = '30px';
+                        iconSymbol.style.borderBottom = `3px solid ${style.iconColor}`;
+                        iconSymbol.style.borderLeft = `3px solid ${style.iconColor}`;
+                        iconSymbol.style.borderRight = `3px solid ${style.iconColor}`;
+                        
+                        const roof = document.createElement('div');
+                        roof.style.width = '0';
+                        roof.style.height = '0';
+                        roof.style.borderLeft = '15px solid transparent';
+                        roof.style.borderRight = '15px solid transparent';
+                        roof.style.borderBottom = `15px solid ${style.iconColor}`;
+                        roof.style.position = 'absolute';
+                        roof.style.top = '-15px';
+                        
+                        iconSymbol.appendChild(roof);
+                        break;
+                        
+                    case 1: // User icon
+                        iconSymbol = createShape('circle', 0, 0, 15, style.iconColor);
+                        iconSymbol.style.position = 'relative';
+                        iconSymbol.style.top = '-5px';
+                        
+                        const body = document.createElement('div');
+                        body.style.width = '30px';
+                        body.style.height = '15px';
+                        body.style.borderTopLeftRadius = '15px';
+                        body.style.borderTopRightRadius = '15px';
+                        body.style.backgroundColor = style.iconColor;
+                        body.style.position = 'absolute';
+                        body.style.bottom = '0';
+                        
+                        iconSymbol.appendChild(body);
+                        break;
+                        
+                    case 2: // Settings icon (gear)
+                        iconSymbol = createShape('circle', 0, 0, 20, 'transparent');
+                        iconSymbol.style.position = 'relative';
+                        iconSymbol.style.border = `3px solid ${style.iconColor}`;
+                        
+                        // Add gear teeth
+                        for (let j = 0; j < 8; j++) {
+                            const tooth = document.createElement('div');
+                            tooth.style.width = '5px';
+                            tooth.style.height = '10px';
+                            tooth.style.backgroundColor = style.iconColor;
+                            tooth.style.position = 'absolute';
+                            tooth.style.left = '50%';
+                            tooth.style.top = '50%';
+                            tooth.style.marginLeft = '-2.5px';
+                            tooth.style.marginTop = '-5px';
+                            tooth.style.transform = `rotate(${j * 45}deg) translateY(-20px)`;
+                            
+                            iconSymbol.appendChild(tooth);
+                        }
+                        break;
+                        
+                    case 3: // Search icon
+                        iconSymbol = createShape('circle', 0, 0, 15, 'transparent');
+                        iconSymbol.style.position = 'relative';
+                        iconSymbol.style.border = `3px solid ${style.iconColor}`;
+                        iconSymbol.style.left = '-5px';
+                        iconSymbol.style.top = '-5px';
+                        
+                        const handle = document.createElement('div');
+                        handle.style.width = '15px';
+                        handle.style.height = '3px';
+                        handle.style.backgroundColor = style.iconColor;
+                        handle.style.position = 'absolute';
+                        handle.style.bottom = '-2px';
+                        handle.style.right = '-13px';
+                        handle.style.transform = 'rotate(-45deg)';
+                        
+                        iconSymbol.appendChild(handle);
+                        break;
+                        
+                    case 4: // Star icon
+                        iconSymbol = document.createElement('div');
+                        iconSymbol.style.position = 'relative';
+                        
+                        // Create star points using borders
+                        const star = document.createElement('div');
+                        star.style.width = '0';
+                        star.style.height = '0';
+                        star.style.borderRight = '10px solid transparent';
+                        star.style.borderBottom = `28px solid ${style.iconColor}`;
+                        star.style.borderLeft = '10px solid transparent';
+                        star.style.transform = 'rotate(35deg)';
+                        star.style.position = 'absolute';
+                        
+                        const star2 = document.createElement('div');
+                        star2.style.width = '0';
+                        star2.style.height = '0';
+                        star2.style.borderRight = '10px solid transparent';
+                        star2.style.borderBottom = `28px solid ${style.iconColor}`;
+                        star2.style.borderLeft = '10px solid transparent';
+                        star2.style.transform = 'rotate(110deg)';
+                        star2.style.position = 'absolute';
+                        
+                        iconSymbol.appendChild(star);
+                        iconSymbol.appendChild(star2);
+                        break;
+                        
+                    case 5: // Heart icon
+                        iconSymbol = document.createElement('div');
+                        iconSymbol.style.position = 'relative';
+                        iconSymbol.style.width = '30px';
+                        iconSymbol.style.height = '30px';
+                        iconSymbol.style.backgroundColor = style.iconColor;
+                        iconSymbol.style.transform = 'rotate(45deg)';
+                        
+                        const circle1 = document.createElement('div');
+                        circle1.style.width = '30px';
+                        circle1.style.height = '30px';
+                        circle1.style.backgroundColor = style.iconColor;
+                        circle1.style.borderRadius = '50%';
+                        circle1.style.position = 'absolute';
+                        circle1.style.top = '-15px';
+                        
+                        const circle2 = document.createElement('div');
+                        circle2.style.width = '30px';
+                        circle2.style.height = '30px';
+                        circle2.style.backgroundColor = style.iconColor;
+                        circle2.style.borderRadius = '50%';
+                        circle2.style.position = 'absolute';
+                        circle2.style.left = '-15px';
+                        
+                        iconSymbol.appendChild(circle1);
+                        iconSymbol.appendChild(circle2);
+                        break;
+                        
+                    case 6: // Chat/message icon
+                        iconSymbol = document.createElement('div');
+                        iconSymbol.style.width = '30px';
+                        iconSymbol.style.height = '25px';
+                        iconSymbol.style.backgroundColor = style.iconColor;
+                        iconSymbol.style.borderRadius = '5px';
+                        
+                        const pointer = document.createElement('div');
+                        pointer.style.width = '0';
+                        pointer.style.height = '0';
+                        pointer.style.borderLeft = '5px solid transparent';
+                        pointer.style.borderRight = '5px solid transparent';
+                        pointer.style.borderTop = `10px solid ${style.iconColor}`;
+                        pointer.style.position = 'absolute';
+                        pointer.style.bottom = '-8px';
+                        pointer.style.right = '5px';
+                        
+                        iconSymbol.appendChild(pointer);
+                        break;
+                        
+                    case 7: // Bell/notification icon
+                        iconSymbol = document.createElement('div');
+                        iconSymbol.style.width = '25px';
+                        iconSymbol.style.height = '25px';
+                        iconSymbol.style.borderRadius = '50% 50% 5px 5px';
+                        iconSymbol.style.backgroundColor = style.iconColor;
+                        
+                        const bellHandle = document.createElement('div');
+                        bellHandle.style.width = '10px';
+                        bellHandle.style.height = '10px';
+                        bellHandle.style.borderRadius = '5px 5px 0 0';
+                        bellHandle.style.border = `3px solid ${style.iconColor}`;
+                        bellHandle.style.borderBottom = 'none';
+                        bellHandle.style.position = 'absolute';
+                        bellHandle.style.top = '-8px';
+                        bellHandle.style.left = '6px';
+                        
+                        iconSymbol.appendChild(bellHandle);
+                        break;
+                        
+                    case 8: // Cart/shopping icon
+                        iconSymbol = document.createElement('div');
+                        iconSymbol.style.width = '30px';
+                        iconSymbol.style.height = '20px';
+                        iconSymbol.style.borderRadius = '3px';
+                        iconSymbol.style.border = `3px solid ${style.iconColor}`;
+                        
+                        const wheel1 = createShape('circle', 5, 30, 5, style.iconColor);
+                        const wheel2 = createShape('circle', 25, 30, 5, style.iconColor);
+                        
+                        const handle1 = document.createElement('div');
+                        handle1.style.width = '3px';
+                        handle1.style.height = '15px';
+                        handle1.style.backgroundColor = style.iconColor;
+                        handle1.style.position = 'absolute';
+                        handle1.style.top = '-13px';
+                        handle1.style.left = '5px';
+                        handle1.style.transform = 'rotate(-30deg)';
+                        
+                        const handle2 = document.createElement('div');
+                        handle2.style.width = '3px';
+                        handle2.style.height = '15px';
+                        handle2.style.backgroundColor = style.iconColor;
+                        handle2.style.position = 'absolute';
+                        handle2.style.top = '-13px';
+                        handle2.style.right = '5px';
+                        handle2.style.transform = 'rotate(30deg)';
+                        
+                        iconSymbol.appendChild(wheel1);
+                        iconSymbol.appendChild(wheel2);
+                        iconSymbol.appendChild(handle1);
+                        iconSymbol.appendChild(handle2);
+                        break;
+                }
+                
+                iconBg.appendChild(iconSymbol);
+                container.appendChild(iconBg);
+                icons.push(iconBg);
+            }
+            
+            designCanvas.appendChild(container);
+            
+            // Animate icons appearing with staggered delay
+            anime({
+                targets: icons,
+                opacity: [0, 1],
+                scale: [0, 1],
+                rotate: [20, 0],
+                delay: anime.stagger(100, {grid: [3, 3], from: 'center'}),
+                duration: 800,
+                easing: 'easeOutElastic(1, .5)'
+            });
+            
+            // Add hover effect animation (continuous subtle motion)
+            anime({
+                targets: icons,
+                translateY: [-5, 5],
+                duration: 2000,
+                delay: anime.stagger(200),
+                direction: 'alternate',
+                loop: true,
+                easing: 'easeInOutSine'
+            });
+        }
+        
+        function createLandingPageElements() {
+            // Create landing page container
+            const container = document.createElement('div');
+            container.classList.add('shape');
+            container.style.width = '500px';
+            container.style.height = '300px';
+            container.style.position = 'absolute';
+            container.style.left = '50%';
+            container.style.top = '50%';
+            container.style.transform = 'translate(-50%, -50%)';
+            container.style.backgroundColor = '#1a1a1f';
+            container.style.borderRadius = '8px';
+            container.style.overflow = 'hidden';
+            container.style.opacity = '0';
+            container.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.3)';
+            
+            // Create header navigation
+            const header = document.createElement('div');
+            header.classList.add('shape');
+            header.style.width = '100%';
+            header.style.height = '50px';
+            header.style.display = 'flex';
+            header.style.alignItems = 'center';
+            header.style.padding = '0 20px';
+            header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+            header.style.opacity = '0';
+            
+            // Logo
+            const logo = document.createElement('div');
+            logo.style.color = '#ff7700';
+            logo.style.fontWeight = 'bold';
+            logo.style.fontSize = '20px';
+            logo.textContent = "COMPANY";
+            
+            // Navigation items
+            const nav = document.createElement('div');
+            nav.style.display = 'flex';
+            nav.style.marginLeft = 'auto';
+            nav.style.gap = '20px';
+            
+            const navItems = ['Home', 'Features', 'Pricing', 'Contact'];
+            
+            navItems.forEach(item => {
+                const navItem = document.createElement('div');
+                navItem.style.color = 'white';
+                navItem.style.fontSize = '14px';
+                navItem.textContent = item;
+                nav.appendChild(navItem);
+            });
+            
+            header.appendChild(logo);
+            header.appendChild(nav);
+            
+            // Hero section
+            const hero = document.createElement('div');
+            hero.classList.add('shape');
+            hero.style.padding = '30px';
+            hero.style.display = 'flex';
+            hero.style.opacity = '0';
+            
+            // Text content
+            const textContent = document.createElement('div');
+            textContent.style.width = '60%';
+            
+            const heroTitle = document.createElement('div');
+            heroTitle.style.color = 'white';
+            heroTitle.style.fontSize = '26px';
+            heroTitle.style.fontWeight = 'bold';
+            heroTitle.style.marginBottom = '15px';
+            heroTitle.textContent = "Powerful Solution for Your Business";
+            
+            const heroSubtitle = document.createElement('div');
+            heroSubtitle.style.color = '#a0a0b0';
+            heroSubtitle.style.fontSize = '14px';
+            heroSubtitle.style.lineHeight = '1.5';
+            heroSubtitle.style.marginBottom = '20px';
+            heroSubtitle.textContent = "Transform your workflow with our innovative platform. Boost productivity and achieve your goals faster than ever.";
+            
+            const ctaButton = document.createElement('div');
+            ctaButton.classList.add('shape');
+            ctaButton.style.display = 'inline-block';
+            ctaButton.style.padding = '10px 25px';
+            ctaButton.style.backgroundColor = '#ff7700';
+            ctaButton.style.color = 'white';
+            ctaButton.style.borderRadius = '5px';
+            ctaButton.style.fontWeight = 'bold';
+            ctaButton.style.fontSize = '14px';
+            ctaButton.style.opacity = '0';
+            ctaButton.textContent = "Get Started";
+            
+            textContent.appendChild(heroTitle);
+            textContent.appendChild(heroSubtitle);
+            textContent.appendChild(ctaButton);
+            
+            // Image section (abstract representation)
+            const imageSection = document.createElement('div');
+            imageSection.style.width = '40%';
+            imageSection.style.position = 'relative';
+            
+            const circle1 = createShape('circle', 20, 20, 60, 'rgba(255, 119, 0, 0.1)');
+            const circle2 = createShape('circle', 80, 40, 40, 'rgba(255, 119, 0, 0.2)');
+            const circle3 = createShape('circle', 60, 80, 30, 'rgba(255, 119, 0, 0.3)');
+            
+            const rect1 = createShape('square', 70, 60, 50, 'rgba(255, 119, 0, 0.15)');
+            rect1.style.borderRadius = '3px';
+            
+            const rect2 = createShape('square', 30, 110, 70, 'rgba(255, 119, 0, 0.1)');
+            rect2.style.borderRadius = '3px';
+            
+            imageSection.appendChild(circle1);
+            imageSection.appendChild(circle2);
+            imageSection.appendChild(circle3);
+            imageSection.appendChild(rect1);
+            imageSection.appendChild(rect2);
+            
+            hero.appendChild(textContent);
+            hero.appendChild(imageSection);
+            
+            // Features section
+            const features = document.createElement('div');
+            features.classList.add('shape');
+            features.style.position = 'absolute';
+            features.style.bottom = '0';
+            features.style.width = '100%';
+            features.style.padding = '15px 30px';
+            features.style.display = 'flex';
+            features.style.justifyContent = 'space-between';
+            features.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
+            features.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+            features.style.opacity = '0';
+            
+            // Feature items
+            const featureItems = [
+                { icon: '🚀', text: 'Fast' },
+                { icon: '🔒', text: 'Secure' },
+                { icon: '💪', text: 'Powerful' },
+                { icon: '❤️', text: 'Reliable' }
+            ];
+            
+            featureItems.forEach(item => {
+                const feature = document.createElement('div');
+                feature.style.display = 'flex';
+                feature.style.alignItems = 'center';
+                feature.style.gap = '8px';
+                
+                const icon = document.createElement('div');
+                icon.style.fontSize = '18px';
+                icon.textContent = item.icon;
+                
+                const text = document.createElement('div');
+                text.style.color = 'white';
+                text.style.fontSize = '14px';
+                text.style.fontWeight = 'bold';
+                text.textContent = item.text;
+                
+                feature.appendChild(icon);
+                feature.appendChild(text);
+                features.appendChild(feature);
+            });
+            
+            container.appendChild(header);
+            container.appendChild(hero);
+            container.appendChild(features);
+            
+            designCanvas.appendChild(container);
+            
+            // Animation sequence
+            anime({
+                targets: container,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+            
+            anime({
+                targets: header,
+                opacity: [0, 1],
+                translateY: [-20, 0],
+                duration: 800,
+                delay: 300,
+                easing: 'easeOutQuad'
+            });
+            
+            anime({
+                targets: hero,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800,
+                delay: 500,
+                easing: 'easeOutQuad'
+            });
+            
+            anime({
+                targets: features,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800,
+                delay: 700,
+                easing: 'easeOutQuad'
+            });
+            
+            anime({
+                targets: ctaButton,
+                opacity: [0, 1],
+                scale: [0.9, 1],
+                delay: 900,
+                duration: 600,
+                easing: 'easeOutElastic(1, .5)'
+            });
+            
+            anime({
+                targets: [circle1, circle2, circle3, rect1, rect2],
+                opacity: [0, 1],
+                scale: [0, 1],
+                duration: 1200,
+                delay: anime.stagger(150, {start: 800}),
+                easing: 'easeOutElastic(1, .5)'
+            });
+        }
+        
+        // Typing animation function
+        function typeAnimation() {
+            const currentSentence = sentences[currentSentenceIndex];
+            
+            if (isDeleting) {
+                // If deleting, remove characters
+                typedTextElement.textContent = currentSentence.substring(0, currentCharIndex - 1);
+                currentCharIndex--;
+                typingSpeed = 20;
+                
+                if (currentCharIndex === 0) {
+                    isDeleting = false;
+                    currentSentenceIndex = (currentSentenceIndex + 1) % sentences.length;
+                    typingSpeed = 300;
+                }
+            } else {
+                // If typing, add characters
+                typedTextElement.textContent = currentSentence.substring(0, currentCharIndex + 1);
+                currentCharIndex++;
+                typingSpeed = 40;
+                
+                // Create design elements when full prompt is typed
+                if (currentCharIndex === currentSentence.length) {
+                    createDesignElements(currentSentence);
+                    isDeleting = true;
+                    typingSpeed = 1500;
+                }
+            }
+            
+            // Schedule next frame
+            setTimeout(typeAnimation, typingSpeed);
+        }
+        
+        // Start the typing animation after initial animations
+        setTimeout(typeAnimation, 1500);
+    </script>
+</body>
+</html> 
