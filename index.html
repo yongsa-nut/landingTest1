@@ -124,31 +124,34 @@
         .input-area {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
+            justify-content: flex-start;
+            margin-bottom: 0;
             position: relative;
             z-index: 2;
+            width: 100%;
+            height: 100%;
+            padding-left: 20px;
         }
         
-        .input-area::after {
-            content: "";
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
+        .typed-text {
+            color: #ffffff;
+            font-size: 1.1rem;
+            display: inline-block;
+        }
+        
+        .cursor {
+            display: inline-block;
             width: 2px;
             height: 24px;
             background-color: #ff7700;
+            vertical-align: middle;
+            margin-left: 1px;
             animation: blink 1s infinite;
         }
         
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
-        }
-        
-        .typed-text {
-            color: #ffffff;
-            font-size: 1.1rem;
         }
         
         .search-actions {
@@ -252,6 +255,7 @@
     <div class="search-box">
         <div class="input-area">
             <span class="typed-text">Ask DesignAI to create a design that...</span>
+            <span class="cursor"></span>
         </div>
     </div>
     
@@ -347,6 +351,8 @@
                 designCanvas.removeChild(designCanvas.firstChild);
             }
             
+            console.log("Creating design for text:", text); // Debug log
+            
             if (text.includes("logo for a cafe")) {
                 createCafeLogoElements();
             } else if (text.includes("mobile app UI")) {
@@ -360,6 +366,7 @@
             } else if (text.includes("product packaging")) {
                 createProductPackagingElements();
             } else if (text.includes("icons for my app")) {
+                console.log("Creating icons for app"); // Debug log
                 createIconsElements();
             } else if (text.includes("landing page")) {
                 createLandingPageElements();
@@ -508,8 +515,8 @@
             // Create a phone frame
             const phone = document.createElement('div');
             phone.classList.add('shape');
-            phone.style.width = '220px';
-            phone.style.height = '400px';
+            phone.style.width = '180px';
+            phone.style.height = '320px';
             phone.style.borderRadius = '20px';
             phone.style.border = '3px solid #ff7700';
             phone.style.position = 'absolute';
@@ -528,7 +535,7 @@
             header.style.left = '0';
             header.style.top = '0';
             header.style.width = '100%';
-            header.style.height = '60px';
+            header.style.height = '50px';
             header.style.backgroundColor = '#4a2e15';
             header.style.opacity = '1';
             
@@ -537,10 +544,10 @@
             title.classList.add('shape');
             title.style.position = 'absolute';
             title.style.left = '50%';
-            title.style.top = '18px';
+            title.style.top = '15px';
             title.style.transform = 'translateX(-50%)';
             title.style.color = 'white';
-            title.style.fontSize = '18px';
+            title.style.fontSize = '16px';
             title.style.fontWeight = 'bold';
             title.style.opacity = '0';
             title.textContent = "FITNESS TRACKER";
@@ -549,10 +556,10 @@
             const menu = document.createElement('div');
             menu.classList.add('shape');
             menu.style.position = 'absolute';
-            menu.style.left = '15px';
-            menu.style.top = '20px';
-            menu.style.width = '20px';
-            menu.style.height = '14px';
+            menu.style.left = '12px';
+            menu.style.top = '18px';
+            menu.style.width = '18px';
+            menu.style.height = '12px';
             menu.style.opacity = '0';
             
             // Create 3 lines for menu icon
@@ -563,7 +570,7 @@
                 line.style.backgroundColor = 'white';
                 line.style.position = 'absolute';
                 line.style.left = '0';
-                line.style.top = (i * 6) + 'px';
+                line.style.top = (i * 5) + 'px';
                 menu.appendChild(line);
             }
             
@@ -576,29 +583,29 @@
             for (let i = 0; i < 3; i++) {
                 const card = document.createElement('div');
                 card.classList.add('shape');
-                card.style.width = '180px';
-                card.style.height = '80px';
+                card.style.width = '150px';
+                card.style.height = '70px';
                 card.style.backgroundColor = cardColors[i];
                 card.style.borderRadius = '10px';
                 card.style.position = 'absolute';
                 card.style.left = '50%';
-                card.style.top = (90 + i * 100) + 'px';
+                card.style.top = (80 + i * 85) + 'px';
                 card.style.transform = 'translateX(-50%)';
                 card.style.opacity = '0';
-                card.style.padding = '15px';
+                card.style.padding = '12px';
                 card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
                 
                 // Card title
                 const cardTitle = document.createElement('div');
                 cardTitle.style.color = 'white';
-                cardTitle.style.fontSize = '14px';
-                cardTitle.style.marginBottom = '10px';
+                cardTitle.style.fontSize = '12px';
+                cardTitle.style.marginBottom = '8px';
                 cardTitle.textContent = cardTitles[i];
                 
                 // Card data
                 const cardValue = document.createElement('div');
                 cardValue.style.color = 'white';
-                cardValue.style.fontSize = '28px';
+                cardValue.style.fontSize = '24px';
                 cardValue.style.fontWeight = 'bold';
                 cardValue.textContent = cardData[i];
                 
@@ -1267,6 +1274,8 @@
         }
         
         function createIconsElements() {
+            console.log("Starting createIconsElements function"); // Debug log
+            
             // Create icons grid container
             const container = document.createElement('div');
             container.classList.add('shape');
@@ -1281,6 +1290,19 @@
             container.style.gridTemplateColumns = 'repeat(3, 1fr)';
             container.style.gridTemplateRows = 'repeat(3, 1fr)';
             container.style.gap = '30px';
+            container.style.justifyItems = 'center';
+            container.style.alignItems = 'center';
+            
+            // Add a debug marker
+            const debugMarker = document.createElement('div');
+            debugMarker.style.position = 'absolute';
+            debugMarker.style.top = '10px';
+            debugMarker.style.left = '10px';
+            debugMarker.style.color = 'white';
+            debugMarker.style.fontSize = '12px';
+            debugMarker.style.zIndex = '100';
+            debugMarker.textContent = "Icons Example Running";
+            container.appendChild(debugMarker);
             
             // Icon styles and types
             const iconStyles = [
@@ -1525,12 +1547,18 @@
             }
             
             designCanvas.appendChild(container);
+            console.log("Icons appended, starting animations"); // Debug log
+            
+            // Force immediate opacity for debugging
+            icons.forEach(icon => {
+                icon.style.opacity = "0.5"; // Start partially visible to debug
+            });
             
             // Animate icons appearing with staggered delay
             anime({
                 targets: icons,
-                opacity: [0, 1],
-                scale: [0, 1],
+                opacity: [0.5, 1],
+                scale: [0.5, 1],
                 rotate: [20, 0],
                 delay: anime.stagger(100, {grid: [3, 3], from: 'center'}),
                 duration: 800,
@@ -1543,6 +1571,21 @@
                 translateY: [-5, 5],
                 duration: 2000,
                 delay: anime.stagger(200),
+                direction: 'alternate',
+                loop: true,
+                easing: 'easeInOutSine'
+            });
+            
+            // Add pulsating glow effect
+            anime({
+                targets: icons,
+                boxShadow: [
+                    '0 0 0 rgba(255, 119, 0, 0)',
+                    '0 0 10px rgba(255, 119, 0, 0.5)',
+                    '0 0 0 rgba(255, 119, 0, 0)'
+                ],
+                duration: 3000,
+                delay: anime.stagger(300),
                 direction: 'alternate',
                 loop: true,
                 easing: 'easeInOutSine'
